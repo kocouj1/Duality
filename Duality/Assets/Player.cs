@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private KeyCode keyLeft;
     [SerializeField] private KeyCode keyRight;
     [SerializeField] private string playerName;
+    [SerializeField] private GameObject winScreen;
     private bool keyBlocked;
     private bool leftKeyWasPressed;
     private bool rightKeyWasPressed;
@@ -58,6 +59,7 @@ public class Player : MonoBehaviour
             }
             if (upKeyWasPressed || downKeyWasPressed || leftKeyWasPressed || rightKeyWasPressed) { keyPressed = true; }
         }
+
         
     }
     private void FixedUpdate()
@@ -89,6 +91,16 @@ public class Player : MonoBehaviour
                     moveStarted = false;
                     keyBlocked = false;
                 }
+            }
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            if (winScreen != null)
+            {
+                winScreen.SetActive(true);
             }
         }
     }
