@@ -74,7 +74,10 @@ public class Player : MonoBehaviour
                 movedSteps += step;
                 if (playerName == "jin")
                 {
-                    playerStep.Play();
+                    if (!playerStep.isPlaying)
+                    {
+                        playerStep.Play();
+                    }
                 }
                 if (movedSteps >= maxMove)
                 {
