@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     private readonly float step = 0.05f;
     private readonly float maxMove = 0.5f;
+    private readonly float zDef = 0f;
     [SerializeField] private KeyCode keyUp;
     [SerializeField] private KeyCode keyDown;
     [SerializeField] private KeyCode keyLeft;
@@ -70,11 +71,11 @@ public class Player : MonoBehaviour
             if (!moveStarted) { 
                 moveStarted = true;
                 movedSteps = 0;
-                originalPos = playerTransform.position;
+                originalPos = new Vector3(playerTransform.position.x, playerTransform.position.y, zDef);
             }
             else
             {
-                playerTransform.position = playerTransform.position + new Vector3((rightKeyWasPressed ? playerNameMod * step : 0) - (leftKeyWasPressed ? playerNameMod * step : 0), (upKeyWasPressed ? playerNameMod * step : 0) - (downKeyWasPressed ? playerNameMod * step : 0));
+                playerTransform.position = playerTransform.position + new Vector3((rightKeyWasPressed ? playerNameMod * step : zDef) - (leftKeyWasPressed ? playerNameMod * step : zDef), (upKeyWasPressed ? playerNameMod * step : zDef) - (downKeyWasPressed ? playerNameMod * step : zDef));
                 movedSteps += step;
                 if (playerName == "jin")
                 {
@@ -83,9 +84,9 @@ public class Player : MonoBehaviour
                         playerStep.Play();
                     }
                 }
-                if (PlayerPrefs.GetInt("collision") == 1)
+                if (PlayerPrefs.GetInt("collision") > 0)
                 {
-                    playerTransform.position = originalPos;
+                    playerTransform.position = new Vector3(originalPos.x, originalPos.y, zDef);
                     movedSteps = 9999;
                 }
                 if (movedSteps >= maxMove)
@@ -97,7 +98,7 @@ public class Player : MonoBehaviour
                     rightKeyWasPressed = false;
                     moveStarted = false;
                     keyBlocked = false;
-                    PlayerPrefs.SetInt("collision", 0);
+                    PlayerPrefs.SetInt("collision", PlayerPrefs.GetInt("collision")-1);
                 }
             }
         }
@@ -115,7 +116,7 @@ public class Player : MonoBehaviour
         else
         {
             // Wall collision
-            PlayerPrefs.SetInt("collision", 1);
+            PlayerPrefs.SetInt("collision", 2);
         }
     }
 }
