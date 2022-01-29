@@ -6,14 +6,18 @@ using UnityEngine.UI;
 
 public class Main : MonoBehaviour
 {
-    // Start is called before the first frame update
+    
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+    
     void Update()
+    {
+        
+    }
+    private void FixedUpdate()
     {
         
     }
@@ -22,4 +26,5 @@ public class Main : MonoBehaviour
     {
         SceneManager.LoadScene(lvl);
     }
+    
 }
