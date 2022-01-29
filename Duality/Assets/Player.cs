@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     private Transform playerTransform;
     private AudioSource playerStep;
     private float playerNameMod;
+    private Vector3 originalPos;
     // Start is called before the first frame update
     void Start()
     {
@@ -69,6 +70,7 @@ public class Player : MonoBehaviour
             if (!moveStarted) { 
                 moveStarted = true;
                 movedSteps = 0;
+                originalPos = playerTransform.position;
             }
             else
             {
@@ -81,6 +83,11 @@ public class Player : MonoBehaviour
                         playerStep.Play();
                     }
                 }
+                if (PlayerPrefs.GetInt("collision") == 1)
+                {
+                    playerTransform.position = originalPos;
+                    movedSteps = 9999;
+                }
                 if (movedSteps >= maxMove)
                 {
                     keyPressed = false;
@@ -90,6 +97,7 @@ public class Player : MonoBehaviour
                     rightKeyWasPressed = false;
                     moveStarted = false;
                     keyBlocked = false;
+                    PlayerPrefs.SetInt("collision", 0);
                 }
             }
         }
@@ -98,10 +106,16 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            // Player collision
             if (winScreen != null)
             {
                 winScreen.SetActive(true);
             }
+        }
+        else
+        {
+            // Wall collision
+            PlayerPrefs.SetInt("collision", 1);
         }
     }
 }
