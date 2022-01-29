@@ -17,7 +17,10 @@ public class Main : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            if (Application.platform != RuntimePlatform.WebGLPlayer)
+            {
+                Application.Quit();
+            }
         }
     }
     private void FixedUpdate()
